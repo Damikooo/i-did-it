@@ -3,23 +3,21 @@ $task = $database->select("tasks", [
 	"id",
 	"description",
 	"status"
+],[
+	"user_id" => $_SESSION['id']
 ]);
-
-$user = $database->select("users", [
-	"id"
-], [
-	"login" => $_SESSION['login']
-])[0];
 
 if ($_POST['add']):
 	$task_add = $database->insert("tasks", [
-		"user_id" => $user['id'],
+		"user_id" => $_SESSION['id'],
 		"description" => $_POST['description'],
 		"created_at" => date("Y-m-d"),
 		"status" => "active"
 	]);
 elseif ($_POST['delete']):
-	$task_delete = $database->delete("tasks", []);
+	$task_delete = $database->delete("tasks", [
+		"user_id" => $_SESSION['id'] 
+	]);
 elseif ($_POST['mark']):
 	$task_delete = $database->update("tasks", [
 		"status" => "complete"
@@ -28,7 +26,7 @@ elseif ($_POST['mark']):
 	]);
 elseif ($_GET['clear']):
 	$task_add = $database->delete("tasks", [
-		"id" => $_GET['clear']
+		"id" => $_GET['clear'] 
 	]);
 endif;
 

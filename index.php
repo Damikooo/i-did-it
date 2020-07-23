@@ -6,12 +6,6 @@ if ($_POST["exit"]):
 	header("Location: /");
 endif;
 // sign
-$user_check = $database->select("users", [
-	"id",
-	"login"
-], [
-	"login" => $_POST['login']
-]);
 if ($_POST['auth']):
 	if (!$user_check):
 		$user_add = $database->insert("users", [
@@ -20,16 +14,17 @@ if ($_POST['auth']):
 			"created_at" => date("Y-m-d")
 		]);
 	endif;
-	$_SESSION['login'] = $_POST['login'];
+	$user_check = $database->select("users", [
+	"id"
+	], [
+		"login" => $_POST['login']
+	]);
+	$_SESSION['id'] = $user_check[0]['id'];
 	header("Location: /");
 endif;
 if (($_POST['add']) or ($_POST['delete']) or ($_GET['clear'])):
 	header("Location: /");
 endif;
-//auth
-
-print_r ($task);
-//task
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,7 +38,7 @@ print_r ($task);
 </head>
 <body>
 	<?
-	if (isset($_SESSION['login'])):
+	if (isset($_SESSION['id'])):
 		include "task.php";
 	else:
 		include "auth.php";
