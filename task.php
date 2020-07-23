@@ -15,7 +15,7 @@ if ($_POST['add']):
 	$task_add = $database->insert("tasks", [
 		"user_id" => $user['id'],
 		"description" => $_POST['description'],
-		"created_at" => date("d-m-Y"),
+		"created_at" => date("Y-m-d"),
 		"status" => "active"
 	]);
 elseif ($_POST['delete']):

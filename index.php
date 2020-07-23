@@ -17,7 +17,7 @@ if ($_POST['auth']):
 		$user_add = $database->insert("users", [
 			"login" => $_POST['login'],
 			"password" => $_POST['password'],
-			"created_at" => date("d-m-Y")
+			"created_at" => date("Y-m-d")
 		]);
 	endif;
 	$_SESSION['login'] = $_POST['login'];
